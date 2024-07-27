@@ -7,6 +7,10 @@ const timer = document.getElementById('timer');
 const image = document.getElementsByClassName('app__image');
 const title = document.getElementsByClassName('app__title');
 
+const duracaoFoco = 1500; 
+const duracaoDescansoCurto = 300; 
+const duracaoDescansoLongo = 900; 
+
 focoBT.addEventListener('click', () => {
     html.setAttribute('data-contexto', 'foco');
 })
