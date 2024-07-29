@@ -8,9 +8,22 @@ const timer = document.querySelector('#timer');
 const image = document.querySelector('.app__image');
 const title = document.querySelector('.app__title');
 
+const musicaFocoInput = document.querySelector('#alternar-musica');
+const musica = new Audio('./sons/luna-rise-part-one.mp3');
+musica.loop = true;
+
 const duracaoFoco = 1500; 
 const duracaoDescansoCurto = 300; 
 const duracaoDescansoLongo = 900; 
+
+
+musicaFocoInput.addEventListener('change', () =>{
+    if(musica.paused){
+        musica.play();
+    } else {
+        musica.pause();
+    }
+});
 
 focoBT.addEventListener('click', () => {
     alterarContexto('foco');
