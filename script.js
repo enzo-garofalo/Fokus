@@ -13,18 +13,14 @@ const title = document.querySelector('.app__title');
 const musicaFocoInput = document.querySelector('#alternar-musica');
 const musica = new Audio('./sons/luna-rise-part-one.mp3');
 musica.loop = true;
-
 const beep = new Audio('./sons/beep.mp3');
 const play = new Audio('./sons/play.wav');
 const pause = new Audio('./sons/pause.mp3')
 
 const startPauseBT = document.querySelector('#start-pause')
 
-let intervaloID = null 
-let duracaoFoco = 5;
-let duracaoDescansoCurto = 300; 
-let duracaoDescansoLongo = 900; 
-
+let intervaloID;
+let tempoDecorrido = 1500;
 
 musicaFocoInput.addEventListener('change', () =>{
     if(musica.paused){
@@ -35,21 +31,25 @@ musicaFocoInput.addEventListener('change', () =>{
 });
 
 focoBT.addEventListener('click', () => {
+    tempoDecorrido = 1500;
     alterarContexto('foco');
     focoBT.classList.add('active');
 })
 
 curtoBT.addEventListener('click', () => {
+    tempoDecorrido = 300;
     alterarContexto('descanso-curto');
     curtoBT.classList.add('active');
 })
 
 longoBT.addEventListener('click', () => {
+    tempoDecorrido = 900;
     alterarContexto('descanso-longo');
     longoBT.classList.add('active');
 })
 
 function alterarContexto(contexto){
+    mostrarTempo();
     botoes.forEach(function(contexto){
         contexto.classList.remove('active')
     });
@@ -80,14 +80,14 @@ function alterarContexto(contexto){
 }
 
 const contagemRegressiva = () =>{
-    if(duracaoFoco <= 0){
+    if(tempoDecorrido <= 0){
         beep.play();
         alert('Tempo finalizado!');
         zerar()
         return
     }
-    duracaoFoco -= 1;
-    console.log('Cronômetro: ' + duracaoFoco);
+    tempoDecorrido -= 1;
+    mostrarTempo();
 }
 
 startPauseBT.addEventListener('click', () => {
@@ -111,3 +111,11 @@ function zerar(){
     clearInterval(intervaloID);
     intervaloID = null;
 }
+
+function mostrarTempo(){
+    const tempo = new Date(tempoDecorrido * 1000);
+    const tempoFormatado = tempo.toLocaleTimeString('pt-Br', {minute: '2-digit', second: '2-digit'})
+    timer.innerHTML = `${tempoFormatado}`
+}
+
+mostrarTempo();
